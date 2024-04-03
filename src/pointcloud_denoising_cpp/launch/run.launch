@@ -1,0 +1,15 @@
+<launch>
+    <!-- Set the path to the PCD file -->
+    <param name="pcd_file_path" type="str" value="$(find pointcloud_denoising_cpp)/data/sample.pcd"/>
+
+    <!-- Launch RViz for visualization -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pointcloud_denoising_cpp)/rviz_config.rviz" />
+
+    <node pkg="tf" type="static_transform_publisher" name="pcd_frame" args="0 0 0 0 0 0 1 map pcd_frame" />
+
+    <!-- Launch the denoising node -->
+    <node pkg="pointcloud_denoising_cpp" type="denoising" name="denoising_node" output="screen">
+        <!-- Pass the PCD file path as a parameter -->
+        <param name="pcd_file_path" value="$(arg pcd_file_path)"/>
+    </node>
+</launch>
